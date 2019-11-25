@@ -1,0 +1,25 @@
+use news;
+
+#insert into matches values(5,1,3,3,7);
+select team_id, team_name, sum(np) as num_points from (
+select team_id, team_name,
+case
+when host_goals>guest_goals then 3
+when host_goals<guest_goals then 0
+when host_goals=guest_goals then 1
+end as np
+from matches inner join teams on team_id=host_team
+
+union all 
+
+select team_id, team_name,
+case
+when guest_goals>host_goals then 3
+when guest_goals<host_goals then 0
+when guest_goals=host_goals then 1
+end as np
+from matches inner join teams on team_id=guest_team
+
+) t
+group by team_id, team_name
+order by num_points desc
