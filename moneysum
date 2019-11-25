@@ -1,0 +1,5 @@
+select name,
+IFNULL(sum(case when money>0 then money end),0) as sum_of_deposits,
+-1*IFNULL(sum(case when money<0 then money end),0) as sum_of_withdrawls from transfers
+group by name
+order by name;
